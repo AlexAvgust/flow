@@ -17,9 +17,6 @@ export class AuthService {
         profilePicture: picture,
       });
     }
-    return {
-      message: 'user info from google',
-      user: req.user,
-    };
+    return { user: req.user };
   }
 }
