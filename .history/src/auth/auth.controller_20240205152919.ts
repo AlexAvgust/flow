@@ -19,7 +19,7 @@ export class AuthController {
     console.log('userData', userData);
     const encodedUserData = encodeURIComponent(JSON.stringify(userData));
     return {
-      link: `${process.env.EXPO_APP_LINK}?user=${encodedUserData}`,
+      link: `exp://192.168.1.109:8081?user=${encodedUserData}`,
     };
   }
 }

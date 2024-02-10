@@ -4,9 +4,9 @@ instance_class: F2
 
 env_variables:
   NODE_ENV: production
-  PORT: 8080  
+  PORT: 3000  
   MONGO_DB_URL: mongodb+srv://alexAvgust:azavac34@flowcluster.2paavdg.mongodb.net/?retryWrites=true&w=majority
   GOOGLE_CLIENT_ID: 811398861785-9g01n439sqlgie8dq7jrebhavsujnvr3.apps.googleusercontent.com
   GOOGLE_CLIENT_SECRET: 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
-  EXPO_APP_LINK: exp://192.168.1.103:8081
+
 
