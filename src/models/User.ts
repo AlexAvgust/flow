@@ -19,7 +19,7 @@ export class User {
   profilePicture: string;
 
   @Prop({ type: [Types.ObjectId], ref: 'Task' })
-  tasks: Task;
+  tasks: Task[];
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);

@@ -1,5 +1,2 @@
-export enum PriorityEnum {
-  RED = 'RED',
-  GREEN = 'GREEN',
-  YELLOW = 'YELLOW',
-}
+export type PriorityNum = 0 | 1 | 2 | 3 | 4;
+export const allowedNumsValues = [0, 1, 2, 3, 4];

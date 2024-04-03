@@ -4,19 +4,21 @@ import { UserService } from 'src/user/user.service';
 @Injectable()
 export class AuthService {
   constructor(private userService: UserService) {}
-  googleLogin(req: any) {
+  async googleLogin(req: any) {
     if (!req?.user) {
       return 'no user info ';
     }
     const { email, name: nameObj, picture } = req.user;
-    const userInDB = this.userService.getUserFromDB(email);
+    const userInDB = await this.userService.getUserFromByEmailDB(email);
     if (!userInDB) {
-      this.userService.addUser({
+      const addedUser = await this.userService.addUser({
         email,
         name: `${nameObj.givenName} ${nameObj.familyName}`,
         profilePicture: picture,
       });
+
+      return { user: addedUser };
     }
-    return { user: req.user };
+    return { user: userInDB };
   }
 }

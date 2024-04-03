@@ -2,7 +2,7 @@ import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { HydratedDocument, Types } from 'mongoose';
 import * as mongoose from 'mongoose';
 import { User } from './User';
-import { PriorityEnum } from 'src/types/taskTypes';
+import { PriorityNum } from 'src/types/taskTypes';
 
 export type TaskDocument = HydratedDocument<Task>;
 
@@ -15,22 +15,24 @@ export class Task {
   name: string;
 
   @Prop()
-  taskStartDate: Date;
+  taskStartDate: string;
 
+  @Prop()
+  taskStartInMilliseconds: number;
+
+  @Prop()
+  taskEndInMilliseconds: number;
   @Prop()
   taskDuration: number;
 
   @Prop()
-  difficulty: number;
-
-  @Prop()
-  priority: PriorityEnum;
+  priority: PriorityNum;
 
   @Prop()
   description: string;
 
   @Prop()
-  tags: string[];
+  tags?: string[];
 
   @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'User' })
   user: User;

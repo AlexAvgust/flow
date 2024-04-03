@@ -1,14 +1,13 @@
 import {
   Length,
-  IS_ENUM,
+  IsIn,
   IsNotEmpty,
   IsDate,
   IsInt,
   IsString,
-  IsEnum,
 } from 'class-validator';
 import { User } from '../models/User';
-import { PriorityEnum } from '../types/taskTypes';
+import { PriorityNum, allowedNumsValues } from '../types/taskTypes';
 
 export class CreateTaskDto {
   @Length(8)
@@ -17,11 +16,11 @@ export class CreateTaskDto {
   @IsDate()
   taskStartDate: string;
   @IsInt()
-  taskDuration: number;
-  @IsString()
-  difficulty: string;
-  @IsEnum(PriorityEnum)
-  priorityEnum: PriorityEnum;
+  taskStartInMilliseconds: number;
+  @IsInt()
+  taskEndInMilliseconds: number;
+  @IsIn(allowedNumsValues)
+  priorityEnum: PriorityNum;
   @IsString()
   description: string;
   tags?: string[];

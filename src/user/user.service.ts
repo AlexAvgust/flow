@@ -7,11 +7,11 @@ import { createUserDto } from '../dto/userDto';
 @Injectable()
 export class UserService {
   constructor(@InjectModel(User.name) private userModel: Model<User>) {}
-  addUser(newUser: createUserDto) {
+  async addUser(newUser: createUserDto) {
     const createdUser = new this.userModel(newUser);
-    return createdUser.save();
+    return await createdUser.save();
   }
-  getUserFromDB(email: string) {
-    return this.userModel.find({ email });
+  async getUserFromByEmailDB(email: string) {
+    return await this.userModel.findOne({ email });
   }
 }

@@ -13,13 +13,13 @@ export class AuthController {
   @Get('redirect')
   @UseGuards(AuthGuard('google'))
   @Render('index')
-  googleAuthRedirect(@Req() req) {
+  async googleAuthRedirect(@Req() req) {
     console.log('redirect controller');
-    const userData = this.authService.googleLogin(req);
+    const userData = await this.authService.googleLogin(req);
     console.log('userData', userData);
     const encodedUserData = encodeURIComponent(JSON.stringify(userData));
     return {
-      link: `${process.env.EXPO_APP_LINK}?user=${encodedUserData}`,
+      link: `${process.env.EXPO_APP_LINK}user=${encodedUserData}`,
     };
   }
 }
