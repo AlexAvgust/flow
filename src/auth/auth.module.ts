@@ -14,4 +14,3 @@ import { User, UserSchema } from 'src/models/User';
   providers: [GoogleStrategy, AuthService, UserService],
 })
 export class AuthModule {}
-console.log(AuthModule);

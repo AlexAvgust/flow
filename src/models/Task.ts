@@ -18,11 +18,6 @@ export class Task {
   taskStartDate: string;
 
   @Prop()
-  taskStartInMilliseconds: number;
-
-  @Prop()
-  taskEndInMilliseconds: number;
-  @Prop()
   taskDuration: number;
 
   @Prop()
@@ -30,6 +25,9 @@ export class Task {
 
   @Prop()
   description: string;
+
+  @Prop()
+  isRepeating: boolean;
 
   @Prop()
   tags?: string[];

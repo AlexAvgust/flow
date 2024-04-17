@@ -5,13 +5,19 @@ import { TaskController } from './task.controller';
 import { TaskService } from './task.service';
 import { UserService } from 'src/user/user.service';
 import { User, UserSchema } from 'src/models/User';
+import { ScheduleService } from 'src/schedule/schedule.service';
+import { Schedule, ScheduleSchema } from 'src/models/Schedule';
 
 @Module({
   imports: [
     MongooseModule.forFeature([{ name: Task.name, schema: TaskSchema }]),
     MongooseModule.forFeature([{ name: User.name, schema: UserSchema }]),
+    MongooseModule.forFeature([
+      { name: Schedule.name, schema: ScheduleSchema },
+    ]),
   ],
   controllers: [TaskController],
-  providers: [TaskService, UserService],
+  providers: [TaskService, UserService, ScheduleService],
+  exports: [TaskService],
 })
 export class TaskModule {}

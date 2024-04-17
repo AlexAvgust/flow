@@ -8,6 +8,9 @@ import { TaskModule } from './task/task.module';
 import { AuthModule } from './auth/auth.module';
 import { PassportModule } from '@nestjs/passport';
 import { DevtoolsModule } from '@nestjs/devtools-integration';
+import { MlTrainModule } from './ml_train/ml_train.module';
+import { ScheduleController } from './schedule/schedule.controller';
+import { ScheduleModule } from './schedule/schedule.module';
 
 @Module({
   imports: [
@@ -24,9 +27,11 @@ import { DevtoolsModule } from '@nestjs/devtools-integration';
     AuthModule,
     UserModule,
     TaskModule,
+    MlTrainModule,
+    ScheduleModule,
   ],
-  controllers: [AppController],
+  controllers: [AppController, ScheduleController],
   providers: [AppService],
-  exports: [UserModule],
+  exports: [UserModule, TaskModule, ScheduleModule],
 })
 export class AppModule {}

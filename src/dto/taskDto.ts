@@ -5,24 +5,24 @@ import {
   IsDate,
   IsInt,
   IsString,
+  IsBoolean,
 } from 'class-validator';
 import { User } from '../models/User';
 import { PriorityNum, allowedNumsValues } from '../types/taskTypes';
 
 export class CreateTaskDto {
-  @Length(8)
   @IsNotEmpty()
   name: string;
   @IsDate()
   taskStartDate: string;
   @IsInt()
-  taskStartInMilliseconds: number;
-  @IsInt()
-  taskEndInMilliseconds: number;
+  taskDuration: number;
   @IsIn(allowedNumsValues)
   priorityEnum: PriorityNum;
   @IsString()
   description: string;
+  @IsBoolean()
+  isRepeating: boolean;
   tags?: string[];
   user: User;
 }
