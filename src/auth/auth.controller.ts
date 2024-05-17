@@ -8,13 +8,14 @@ export class AuthController {
 
   @Get()
   @UseGuards(AuthGuard('google'))
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   async googleAuth(@Req() req) {}
 
   @Get('redirect')
   @UseGuards(AuthGuard('google'))
   @Render('index')
   async googleAuthRedirect(@Req() req) {
-    console.log('redirect controller');
+    console.log('redirect');
     const userData = await this.authService.googleLogin(req);
     console.log('userData', userData);
     const encodedUserData = encodeURIComponent(JSON.stringify(userData));

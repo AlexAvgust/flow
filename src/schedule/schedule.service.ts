@@ -3,18 +3,21 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Schedule } from 'src/models/Schedule';
 import mongoose, { Model } from 'mongoose';
 import { Task } from 'src/models/Task';
+import { getDateWithoutTime } from './utils/scheduleUtils';
+import { UserService } from 'src/user/user.service';
 
 @Injectable()
 export class ScheduleService {
   constructor(
     @InjectModel(Schedule.name) private scheduleModel: Model<Schedule>,
+    private userService: UserService,
   ) {}
 
   async getScheduleByDate(dateStr: string, id: string) {
-    const isoDate = new Date(dateStr);
+    const scheduleDate = getDateWithoutTime(dateStr);
     const data = await this.scheduleModel.findOne({
       date: {
-        $eq: isoDate.toISOString(),
+        $eq: scheduleDate,
       },
       user: {
         $eq: new mongoose.Types.ObjectId(id),
@@ -24,27 +27,38 @@ export class ScheduleService {
     return data;
   }
 
-  async addTaskToSchedule(task: Task) {
+  async addTaskToSchedule(task: Task, userEmail: string) {
     const { taskStartDate, user } = task;
+    const scheduleDate = getDateWithoutTime(taskStartDate);
     const schedule = await this.scheduleModel.findOne({
-      date: taskStartDate,
+      date: scheduleDate,
       user: user,
     });
-
     if (schedule) {
+      //TODO update schedule in user model
       schedule.tasks.push(task);
-      //TODO update schedules in user document
       await schedule.save();
-      return schedule;
+      await this.userService.updateScheduleInUser(schedule, userEmail);
     } else {
+      //TODO create new schedule in user model
       const newSchedule = new this.scheduleModel({
         _id: new mongoose.Types.ObjectId(),
-        date: taskStartDate,
+        date: scheduleDate,
         user: user,
         tasks: [task],
       });
       await newSchedule.save();
+      await this.userService.addScheduleToUser(newSchedule, userEmail);
       return newSchedule;
     }
+  }
+
+  async getSchedulesByUserId(id: string) {
+    const data = await this.scheduleModel.find({
+      user: {
+        $eq: new mongoose.Types.ObjectId(id),
+      },
+    });
+    return data;
   }
 }
