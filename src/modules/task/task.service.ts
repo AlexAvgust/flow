@@ -3,7 +3,7 @@ import { InjectModel } from '@nestjs/mongoose';
 import mongoose, { Model } from 'mongoose';
 import { CreateTaskDto } from 'src/dto/taskDto';
 import { Task } from 'src/models/Task';
-import { ScheduleService } from 'src/schedule/schedule.service';
+import { ScheduleService } from 'src/modules/schedule/schedule.service';
 
 @Injectable()
 export class TaskService {
@@ -12,7 +12,7 @@ export class TaskService {
     private scheduleService: ScheduleService,
   ) {}
 
-  async addTask(createTaskDto: CreateTaskDto): Promise<void> {
+  async addTask(createTaskDto: CreateTaskDto) {
     const task = {
       ...createTaskDto,
       _id: new mongoose.Types.ObjectId(),
@@ -23,6 +23,8 @@ export class TaskService {
       createdTask,
       createTaskDto.user.email,
     );
+
+    return createdTask;
   }
 
   async getTaskNamesByUser(id: string) {

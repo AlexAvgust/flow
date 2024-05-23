@@ -1,11 +1,10 @@
 import {
-  Length,
-  IsIn,
-  IsNotEmpty,
-  IsDate,
-  IsInt,
-  IsString,
   IsBoolean,
+  IsDate,
+  IsIn,
+  IsInt,
+  IsNotEmpty,
+  IsString,
 } from 'class-validator';
 import { User } from '../models/User';
 import { PriorityNum, allowedNumsValues } from '../types/taskTypes';

@@ -6,3 +6,10 @@ export const getDateWithoutTime = (date: string) => {
 
   return moment(date).startOf('day').format('YYYY-MM-DD');
 };
+
+export const compareDates = (date1, date2) => {
+  const [startDate, endDate] = moment(date1).isBefore(date2, 'day')
+    ? [date1, date2]
+    : [date2, date1];
+  return { startDate, endDate };
+};

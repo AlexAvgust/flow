@@ -1,8 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-import { User } from '../models/User';
-import { createUserDto } from '../dto/userDto';
+import { User } from '../../models/User';
+import { createUserDto } from '../../dto/userDto';
 import { Schedule } from 'src/models/Schedule';
 
 @Injectable()
