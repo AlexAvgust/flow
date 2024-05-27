@@ -7,6 +7,7 @@ import { UserService } from 'src/modules/user/user.service';
 import { User, UserSchema } from 'src/models/User';
 import { ScheduleService } from 'src/modules/schedule/schedule.service';
 import { Schedule, ScheduleSchema } from 'src/models/Schedule';
+import { AuthService } from '../auth/auth.service';
 
 @Module({
   imports: [
@@ -17,7 +18,7 @@ import { Schedule, ScheduleSchema } from 'src/models/Schedule';
     ]),
   ],
   controllers: [TaskController],
-  providers: [TaskService, UserService, ScheduleService],
+  providers: [TaskService, UserService, ScheduleService, AuthService],
   exports: [TaskService],
 })
 export class TaskModule {}

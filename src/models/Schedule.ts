@@ -1,6 +1,5 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { HydratedDocument, Types } from 'mongoose';
-import { Task } from './Task';
 
 export type ScheduleDocument = HydratedDocument<Schedule>;
 
@@ -12,11 +11,11 @@ export class Schedule {
   @Prop()
   date: string;
 
-  @Prop({ type: Types.ObjectId, ref: 'User' })
+  @Prop({ type: Types.ObjectId, ref: 'users' })
   user: Types.ObjectId;
 
-  @Prop({ type: [Types.ObjectId], ref: 'Tasks' })
-  tasks: Task[];
+  @Prop({ type: [Types.ObjectId], ref: 'tasks' })
+  tasks: Types.ObjectId[];
 }
 
 export const ScheduleSchema = SchemaFactory.createForClass(Schedule);

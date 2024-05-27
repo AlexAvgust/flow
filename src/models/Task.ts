@@ -1,7 +1,5 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { HydratedDocument, Types } from 'mongoose';
-import * as mongoose from 'mongoose';
-import { User } from './User';
 import { PriorityNum } from 'src/types/taskTypes';
 
 export type TaskDocument = HydratedDocument<Task>;
@@ -32,8 +30,8 @@ export class Task {
   @Prop()
   tags?: string[];
 
-  @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'User' })
-  user: User;
+  @Prop({ type: Types.ObjectId, ref: 'users' })
+  user: Types.ObjectId;
 }
 
 export const TaskSchema = SchemaFactory.createForClass(Task);

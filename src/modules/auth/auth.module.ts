@@ -12,5 +12,6 @@ import { User, UserSchema } from 'src/models/User';
   ],
   controllers: [AuthController],
   providers: [GoogleStrategy, AuthService, UserService],
+  exports: [AuthService],
 })
 export class AuthModule {}

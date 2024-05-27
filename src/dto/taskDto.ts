@@ -8,6 +8,7 @@ import {
 } from 'class-validator';
 import { User } from '../models/User';
 import { PriorityNum, allowedNumsValues } from '../types/taskTypes';
+import mongoose from 'mongoose';
 
 export class CreateTaskDto {
   @IsNotEmpty()
@@ -24,4 +25,8 @@ export class CreateTaskDto {
   isRepeating: boolean;
   tags?: string[];
   user: User;
+}
+
+export class UpdateTaskDto extends CreateTaskDto {
+  _id: mongoose.Types.ObjectId;
 }

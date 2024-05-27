@@ -1,7 +1,7 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, Req } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import mongoose, { Model } from 'mongoose';
-import { CreateTaskDto } from 'src/dto/taskDto';
+import { CreateTaskDto, UpdateTaskDto } from 'src/dto/taskDto';
 import { Task } from 'src/models/Task';
 import { ScheduleService } from 'src/modules/schedule/schedule.service';
 
@@ -30,5 +30,15 @@ export class TaskService {
   async getTaskNamesByUser(id: string) {
     const tasks = await this.taskModel.find({ user: id });
     return tasks.map((task) => task.name);
+  }
+
+  async deleteTaskById(id: string, @Req() userId: string) {
+    await this.taskModel.deleteOne({ _id: id });
+    await this.scheduleService.removeTaskFromSchedule(id, userId);
+    return null;
+  }
+
+  async updateTask(task: UpdateTaskDto) {
+    return await this.taskModel.updateOne({ _id: task._id }, task);
   }
 }

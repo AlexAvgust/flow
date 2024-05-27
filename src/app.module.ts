@@ -1,17 +1,15 @@
 import { Module } from '@nestjs/common';
+import { ConfigModule } from '@nestjs/config';
+import { DevtoolsModule } from '@nestjs/devtools-integration';
+import { MongooseModule } from '@nestjs/mongoose';
+import { PassportModule } from '@nestjs/passport';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { MongooseModule } from '@nestjs/mongoose';
-import { ConfigModule } from '@nestjs/config';
-import { UserModule } from './modules/user/user.module';
-import { TaskModule } from './modules/task/task.module';
 import { AuthModule } from './modules/auth/auth.module';
-import { PassportModule } from '@nestjs/passport';
-import { DevtoolsModule } from '@nestjs/devtools-integration';
 import { MlTrainModule } from './modules/ml_train/ml_train.module';
-import { ScheduleController } from './modules/schedule/schedule.controller';
 import { ScheduleModule } from './modules/schedule/schedule.module';
-import { ScheduleGateway } from './modules/schedule/schedule.gateway';
+import { TaskModule } from './modules/task/task.module';
+import { UserModule } from './modules/user/user.module';
 
 @Module({
   imports: [
@@ -31,8 +29,7 @@ import { ScheduleGateway } from './modules/schedule/schedule.gateway';
     MlTrainModule,
     ScheduleModule,
   ],
-  controllers: [AppController, ScheduleController],
-  providers: [AppService, ScheduleGateway],
-  exports: [UserModule, TaskModule, ScheduleModule],
+  controllers: [AppController],
+  providers: [AppService],
 })
 export class AppModule {}

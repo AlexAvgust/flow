@@ -1,8 +1,10 @@
-import { Controller, Get, Query } from '@nestjs/common';
+import { Controller, Get, Query, UseGuards } from '@nestjs/common';
 import { UserDocument } from 'src/models/User';
 import { UserService } from './user.service';
+import { JWTGuard } from '../auth/auth.guard';
 
 @Controller('user')
+@UseGuards(JWTGuard)
 export class UserController {
   constructor(private userService: UserService) {}
 

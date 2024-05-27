@@ -1,8 +1,10 @@
-import { Body, Controller, Get, Param, Post } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, UseGuards } from '@nestjs/common';
 import { CreateTaskDto } from 'src/dto/taskDto';
 import { TaskService } from './task.service';
+import { JWTGuard } from '../auth/auth.guard';
 
 @Controller('task')
+@UseGuards(JWTGuard)
 export class TaskController {
   constructor(private taskService: TaskService) {}
   @Post()
