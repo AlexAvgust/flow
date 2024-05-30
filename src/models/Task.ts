@@ -1,6 +1,6 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { HydratedDocument, Types } from 'mongoose';
-import { PriorityNum } from 'src/types/taskTypes';
+import { PriorityNum, addedByPossibleValues } from 'src/types/taskTypes';
 
 export type TaskDocument = HydratedDocument<Task>;
 
@@ -16,6 +16,12 @@ export class Task {
   taskStartDate: string;
 
   @Prop()
+  taskStartTime: string;
+
+  @Prop()
+  taskEndTime: string;
+
+  @Prop()
   taskDuration: number;
 
   @Prop()
@@ -26,6 +32,9 @@ export class Task {
 
   @Prop()
   isRepeating: boolean;
+
+  @Prop({ default: 'User' })
+  taskAddedBy: addedByPossibleValues;
 
   @Prop()
   tags?: string[];

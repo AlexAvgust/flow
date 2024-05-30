@@ -5,31 +5,33 @@ import { Schedule } from 'src/models/Schedule';
 import { Task } from 'src/models/Task';
 import { UserService } from 'src/modules/user/user.service';
 import { compareDates, getDateWithoutTime } from './utils/scheduleUtils';
-import { AuthService } from '../auth/auth.service';
 @Injectable()
 export class ScheduleService {
   constructor(
     @InjectModel(Schedule.name) private scheduleModel: Model<Schedule>,
     private readonly userService: UserService,
-    private readonly authService: AuthService,
   ) {}
 
   async addTaskToSchedule(task: Task, userEmail: string) {
-    const { taskStartDate, user } = task;
+    const {
+      taskStartDate,
+      user: { _id: userId },
+      _id: taskId,
+    } = task;
     const scheduleDate = getDateWithoutTime(taskStartDate);
     const schedule = await this.scheduleModel.findOne({
       date: scheduleDate,
-      user: user,
+      user: userId,
     });
     if (schedule) {
-      schedule.tasks.push(task._id);
+      schedule.tasks.push(taskId);
       await schedule.save();
     } else {
       const newSchedule = new this.scheduleModel({
         _id: new mongoose.Types.ObjectId(),
         date: scheduleDate,
-        user: new mongoose.Types.ObjectId(user._id),
-        tasks: [task._id],
+        user: new mongoose.Types.ObjectId(userId),
+        tasks: [taskId],
       });
       await newSchedule.save();
       await this.userService.addScheduleToUser(newSchedule, userEmail);
@@ -54,10 +56,6 @@ export class ScheduleService {
         },
       })
       .populate({ path: 'tasks', model: Task.name });
-    console.log('\n');
-    console.log('startDate', startDateWithoutTime);
-    console.log('endDate', endDateWithoutTime);
-    console.log('data:', JSON.stringify(data));
     return data;
   }
 

@@ -1,32 +1,39 @@
 import {
   IsBoolean,
-  IsDate,
   IsIn,
   IsInt,
+  IsMongoId,
   IsNotEmpty,
   IsString,
 } from 'class-validator';
-import { User } from '../models/User';
-import { PriorityNum, allowedNumsValues } from '../types/taskTypes';
 import mongoose from 'mongoose';
+import { PriorityNum, allowedNumsValues } from '../types/taskTypes';
 
 export class CreateTaskDto {
+  @IsString()
+  taskStartTime: string;
+  @IsString()
+  taskEndTime: string;
+  @IsString()
+  taskAddedBy: string;
   @IsNotEmpty()
   name: string;
-  @IsDate()
+  @IsString()
   taskStartDate: string;
   @IsInt()
   taskDuration: number;
   @IsIn(allowedNumsValues)
-  priorityEnum: PriorityNum;
+  priority: PriorityNum;
   @IsString()
   description: string;
   @IsBoolean()
   isRepeating: boolean;
   tags?: string[];
-  user: User;
+  @IsNotEmpty()
+  user: string;
 }
 
 export class UpdateTaskDto extends CreateTaskDto {
+  @IsMongoId()
   _id: mongoose.Types.ObjectId;
 }
