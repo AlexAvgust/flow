@@ -18,9 +18,14 @@ export class UserService {
     return await this.userModel.findOne({ email });
   }
 
-  async addScheduleToUser(schedule: Schedule, userEmail: string) {
-    const user = await this.getUserFromByEmailDB(userEmail);
-    console.log('user', JSON.stringify(user));
+  async getUserById(id: string) {
+    return await this.userModel.findOne({
+      _id: { $eq: new mongoose.Types.ObjectId(id) },
+    });
+  }
+
+  async addScheduleToUser(schedule: Schedule, userId: string) {
+    const user = await this.getUserById(userId);
     user.schedules.push(schedule._id);
     await user.save();
   }

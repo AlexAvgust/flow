@@ -22,7 +22,7 @@ export class TaskService {
     };
     const createdTask = await this.taskModel.create(task);
 
-    await this.scheduleService.addTaskToSchedule(createdTask, user.email);
+    await this.scheduleService.addTaskToSchedule(createdTask);
 
     return createdTask;
   }
@@ -34,19 +34,30 @@ export class TaskService {
     return tasks.map((task) => task.name);
   }
 
-  async updateTask(task: UpdateTaskDto) {
+  async updateTask(task: UpdateTaskDto, user: UserJWTPayload) {
     try {
-      const { _id, ...updateData } = task;
-      const result = await this.taskModel.updateOne(
-        { _id: new mongoose.Types.ObjectId(_id) },
-        { $set: updateData },
+      const { _id: taskId, ...updateData } = task;
+      const { userId } = user;
+      const updatedTask = await this.taskModel.findOneAndUpdate(
+        {
+          _id: new mongoose.Types.ObjectId(taskId),
+          user: new mongoose.Types.ObjectId(userId),
+        },
+        {
+          $set: {
+            ...updateData,
+            user: new mongoose.Types.ObjectId(userId),
+          },
+        },
+        { new: true },
       );
 
-      if (result.modifiedCount === 0) {
-        throw new NotFoundException(`Task with id ${_id} not found`);
-      }
-
-      return result;
+      await this.scheduleService.removeTaskFromSchedule(
+        taskId.toString(),
+        userId,
+      );
+      await this.scheduleService.addTaskToSchedule(updatedTask);
+      return updatedTask;
     } catch (err) {
       console.error(err);
       throw new NotFoundException('Task not found or could not be updated');

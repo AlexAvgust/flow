@@ -1,10 +1,9 @@
 import { Controller, Get, Query, UseGuards } from '@nestjs/common';
 import * as moment from 'moment';
-import { ScheduleService } from './schedule.service';
-import { JWTGuard } from '../auth/auth.guard';
 import { User } from 'src/decorators/user.decorator';
-import { User as UserType } from 'src/models/User';
 import { UserJWTPayload } from 'src/types/UserJWTPayload';
+import { JWTGuard } from '../auth/auth.guard';
+import { ScheduleService } from './schedule.service';
 
 @Controller('schedule')
 @UseGuards(JWTGuard)
@@ -18,7 +17,6 @@ export class ScheduleController {
     @User() user: UserJWTPayload,
   ) {
     const { userId: id } = user;
-    console.log('idStr', user);
     const data = await this.scheduleService.getScheduleByRangeOfDate(
       startDate,
       endDate,

@@ -7,7 +7,11 @@ import {
   IsString,
 } from 'class-validator';
 import mongoose from 'mongoose';
-import { PriorityNum, allowedNumsValues } from '../types/taskTypes';
+import {
+  PriorityNum,
+  addedByPossibleValues,
+  allowedNumsValues,
+} from '../types/taskTypes';
 
 export class CreateTaskDto {
   @IsString()
@@ -15,7 +19,7 @@ export class CreateTaskDto {
   @IsString()
   taskEndTime: string;
   @IsString()
-  taskAddedBy: string;
+  taskAddedBy: addedByPossibleValues;
   @IsNotEmpty()
   name: string;
   @IsString()
@@ -35,5 +39,6 @@ export class CreateTaskDto {
 
 export class UpdateTaskDto extends CreateTaskDto {
   @IsMongoId()
+  @IsString()
   _id: mongoose.Types.ObjectId;
 }

@@ -33,8 +33,8 @@ export class TaskController {
   }
 
   @Put()
-  async updateTask(@Body() task: UpdateTaskDto) {
-    return this.taskService.updateTask(task);
+  async updateTask(@Body() task: UpdateTaskDto, @User() user: UserJWTPayload) {
+    return this.taskService.updateTask(task, user);
   }
 
   @Delete('/:id')

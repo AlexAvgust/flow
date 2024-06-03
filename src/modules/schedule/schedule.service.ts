@@ -12,7 +12,7 @@ export class ScheduleService {
     private readonly userService: UserService,
   ) {}
 
-  async addTaskToSchedule(task: Task, userEmail: string) {
+  async addTaskToSchedule(task: Task) {
     const {
       taskStartDate,
       user: { _id: userId },
@@ -34,7 +34,7 @@ export class ScheduleService {
         tasks: [taskId],
       });
       await newSchedule.save();
-      await this.userService.addScheduleToUser(newSchedule, userEmail);
+      await this.userService.addScheduleToUser(newSchedule, userId.toString());
     }
   }
 
@@ -80,8 +80,8 @@ export class ScheduleService {
     );
 
     if (schedule) {
-      schedule.tasks.filter(
-        (task) => task._id !== new mongoose.Types.ObjectId(taskId),
+      schedule.tasks = schedule.tasks.filter(
+        (taskIdInSchedule) => taskIdInSchedule.toString() !== taskId,
       );
       await schedule.save();
     } else {
